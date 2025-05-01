@@ -46,6 +46,11 @@ class RoleDetailView(APIView):
         role = self.get_object(pk, request.user)
         serializer = RoleSerializers(role)
         return Response(serializer.data, status=200)
+    
+    def delete(self, request, pk):
+        role = self.get_object(pk, request.user)
+        role.delete()
+        return Response(status=204)
 
 #---------------------------------------------------------
 class SignUpView(APIView):
