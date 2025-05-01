@@ -4,5 +4,5 @@ from .views import RoleListCreateView
 
 
 urlpatterns = [
-    path('role/', RoleListCreateView.as_view(), name='role-list-create')
+    path('roles/', RoleListCreateView.as_view(), name='role-list-create')
 ]
