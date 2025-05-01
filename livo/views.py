@@ -11,7 +11,12 @@ from django.core.exceptions import ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
 
+from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import PermissionDenied
+
+
 # Create your views here.
+
 class RoleListCreateView(APIView):
     permission_classes = [IsAuthenticated] 
 
@@ -26,7 +31,21 @@ class RoleListCreateView(APIView):
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
+#----------------------------------------------------------
+class RoleDetailView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def get_object(self, pk, user): 
+        role = get_object_or_404(Role, pk=pk)
+        if role.owner != user:
+            raise PermissionDenied(" You do not have permission to access this role.")
+        return role
+
+
+    def get(self, request, pk):
+        role = self.get_object(pk, request.user)
+        serializer = RoleSerializers(role)
+        return Response(serializer.data, status=200)
 
 #---------------------------------------------------------
 class SignUpView(APIView):
