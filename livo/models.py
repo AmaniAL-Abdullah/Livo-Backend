@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Role(models.Model):
-    name= models.CharField(max_length=255)
-    description = models.CharField(max_length=50)
+    name= models.CharField(max_length=50)
+    description = models.CharField(max_length=255)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='role')
     
     def __str__(self):
