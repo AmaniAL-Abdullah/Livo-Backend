@@ -13,19 +13,20 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 class RoleListCreateView(APIView):
+    permission_classes = [IsAuthenticated] 
 
     def get(self, request):
-        role = Role.objects.all()
+        role = Role.objects.filter(owner=request.user)
         serializer = RoleSerializers(role, many=True)
         return Response(serializer.data, status=200)
     
     def post(self, request):
-        serializer = RoleSerializers(data=request.data)
+        serializer = RoleSerializers(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
-    
+
 
 #---------------------------------------------------------
 class SignUpView(APIView):
