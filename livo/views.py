@@ -17,6 +17,7 @@ from rest_framework.exceptions import PermissionDenied
 
 # Create your views here.
 
+# Model Role
 class RoleListCreateView(APIView):
     permission_classes = [IsAuthenticated] 
 
@@ -31,7 +32,7 @@ class RoleListCreateView(APIView):
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
-#----------------------------------------------------------
+#.....................................................
 class RoleDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -40,7 +41,6 @@ class RoleDetailView(APIView):
         if role.owner != user:
             raise PermissionDenied(" You do not have permission to access this role.")
         return role
-
 
     def get(self, request, pk):
         role = self.get_object(pk, request.user)
@@ -59,6 +59,27 @@ class RoleDetailView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
+#---------------------------------------------------------
+
+# Model Task
+class RoleTasksView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        role = get_object_or_404(Role, pk=pk, owner=request.user)
+        tasks = role.task.all()
+        serializer = TaskSerializers(tasks, many=True)
+        return Response(serializer.data, status=200)
+    
+class TaskListCreateView(APIView):
+    permission_classes = [IsAuthenticated] 
+
+    def get(self, request):
+        task = Task.objects.filter(role__owner=request.user)
+        serializer = TaskSerializers(task, many=True)
+        return Response(serializer.data, status=200)
+    
+
 
 #---------------------------------------------------------
 class SignUpView(APIView):
