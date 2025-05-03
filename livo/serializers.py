@@ -17,6 +17,9 @@ class TaskSerializers(serializers.ModelSerializer):
         model = Task
         fields = ['id','title', 'description', 'start_date', 'end_date', 'role']
         read_only_fields = ['id', 'start_date'] 
+        extra_kwargs = {
+            'end_date': {'required': False, 'allow_null': True}
+        }
 
 class AchievementSerializers(serializers.ModelSerializer):
     class Meta:

@@ -5,8 +5,9 @@ from .views import (
     RoleListCreateView,
     SignUpView, 
     RoleDetailView,
+    RoleTasksView,
     TaskListCreateView,
-    RoleTasksView)
+    TaskDetailView)
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
@@ -20,4 +21,5 @@ urlpatterns = [
 
     path('tasks/', TaskListCreateView.as_view(), name='task-list-create'),
     path('roles/<int:pk>/tasks/', RoleTasksView.as_view(), name='role_tasks'),
+    path('task/<int:pk>/',TaskDetailView.as_view(), name='task_detail'),
 ]

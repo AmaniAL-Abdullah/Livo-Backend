@@ -62,6 +62,8 @@ class RoleDetailView(APIView):
 #---------------------------------------------------------
 
 # Model Task
+
+# Returns all tasks for a specific role owned by the authenticated user
 class RoleTasksView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -70,7 +72,8 @@ class RoleTasksView(APIView):
         tasks = role.task.all()
         serializer = TaskSerializers(tasks, many=True)
         return Response(serializer.data, status=200)
-    
+
+# Handles creating a new task and listing all tasks for the authenticated user
 class TaskListCreateView(APIView):
     permission_classes = [IsAuthenticated] 
 
@@ -86,6 +89,34 @@ class TaskListCreateView(APIView):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
     
+# Returns details of a single task if it belongs to the authenticated user
+class TaskDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self, pk, user): 
+        task = get_object_or_404(Task, pk=pk)
+        if task.role.owner != user:
+            raise PermissionDenied(" You do not have permission to access this Task.")
+        return task
+
+    def get(self, request, pk):
+        task = self.get_object(pk, request.user)
+        serializer = TaskSerializers(task)
+        return Response(serializer.data, status=200)
+    
+    def patch(self, request, pk):
+        task = self.get_object(pk, request.user)
+        serializer = TaskSerializers(task, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+    
+    def delete(self, request, pk):
+        task = self.get_object(pk, request.user)
+        task.delete()
+        return Response(status=204)
+
 
 
 #---------------------------------------------------------
