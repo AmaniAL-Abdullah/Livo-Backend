@@ -167,6 +167,11 @@ class AchievementDetailView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
+    
+    def delete(self, request, pk):
+        task = self.get_object(pk, request.user)
+        task.delete()
+        return Response(status=204)
 #---------------------------------------------------------
 class SignUpView(APIView):
     permission_classes = [AllowAny]
