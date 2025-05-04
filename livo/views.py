@@ -117,6 +117,17 @@ class TaskDetailView(APIView):
         task.delete()
         return Response(status=204)
 
+#---------------------------------------------------------
+#Model Achievement
+# Returns all achievements for a specific role owned by the authenticated user
+class RoleAchievementView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        role = get_object_or_404(Role, pk=pk, owner=request.user)
+        achievement = role.achievement.all()
+        serializer = AchievementSerializers(achievement, many=True)
+        return Response(serializer.data, status=200)
 
 
 #---------------------------------------------------------
