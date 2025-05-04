@@ -30,6 +30,8 @@ urlpatterns = [
 
 path('roles/<int:pk>/achievements/', RoleAchievementView.as_view(), name='role-achievements'),
 path('achievements/', AchievementListCreateView.as_view(), name='achievement-list-create'),
+path('achievement/<int:pk>/', AchievementDetailView.as_view(), name='achievement-detail'),
+
 
     
 ]

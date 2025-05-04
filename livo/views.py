@@ -144,6 +144,21 @@ class AchievementListCreateView(APIView):
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
+    
+# Handles retrieving, updating, and deleting a single achievement owned by the authenticated user
+class AchievementDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self, pk, user): 
+        achievement = get_object_or_404(Achievement, pk=pk)
+        if achievement.role.owner != user:
+            raise PermissionDenied(" You do not have permission to access this Achievement.")
+        return achievement
+
+    def get(self, request, pk):
+        achievement = self.get_object(pk, request.user)
+        serializer = AchievementSerializers(achievement)
+        return Response(serializer.data, status=200)
 #---------------------------------------------------------
 class SignUpView(APIView):
     permission_classes = [AllowAny]
