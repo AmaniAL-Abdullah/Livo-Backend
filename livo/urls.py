@@ -29,6 +29,7 @@ urlpatterns = [
     path('task/<int:pk>/',TaskDetailView.as_view(), name='task-detail'),
 
 path('roles/<int:pk>/achievements/', RoleAchievementView.as_view(), name='role-achievements'),
+path('achievements/', AchievementListCreateView.as_view(), name='achievement-list-create'),
 
     
 ]
