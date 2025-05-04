@@ -12,11 +12,19 @@ class Role(models.Model):
         return self.name
 
 class Task(models.Model):
+    STATUS_CHOICES = [
+    ('not_started', '🕓 Not Started'),
+    ('in_progress', '⚙️ In Progress'),
+    ('completed', '✅ Completed'),
+    ('cancelled', '❌ Cancelled'),
+    ]
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
     start_date = models.DateField(auto_now_add=True)
     end_date = models.DateField(null=True, blank=True)
     role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name='task')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='not_started')
+
     
     def __str__(self):
         return self.title
