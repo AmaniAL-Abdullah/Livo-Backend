@@ -159,6 +159,14 @@ class AchievementDetailView(APIView):
         achievement = self.get_object(pk, request.user)
         serializer = AchievementSerializers(achievement)
         return Response(serializer.data, status=200)
+    
+    def patch(self, request, pk):
+        achievement = self.get_object(pk, request.user)
+        serializer = AchievementSerializers(achievement, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
 #---------------------------------------------------------
 class SignUpView(APIView):
     permission_classes = [AllowAny]
