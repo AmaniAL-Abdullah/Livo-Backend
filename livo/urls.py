@@ -28,10 +28,8 @@ urlpatterns = [
     path('roles/<int:pk>/tasks/', RoleTasksView.as_view(), name='role-tasks'),
     path('task/<int:pk>/',TaskDetailView.as_view(), name='task-detail'),
 
-path('roles/<int:pk>/achievements/', RoleAchievementView.as_view(), name='role-achievements'),
-path('achievements/', AchievementListCreateView.as_view(), name='achievement-list-create'),
-path('achievement/<int:pk>/', AchievementDetailView.as_view(), name='achievement-detail'),
+    path('roles/<int:pk>/achievements/', RoleAchievementView.as_view(), name='role-achievements'),
+    path('achievements/', AchievementListCreateView.as_view(), name='achievement-list-create'),
+    path('achievement/<int:pk>/', AchievementDetailView.as_view(), name='achievement-detail'),
 
-
-    
 ]
