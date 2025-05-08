@@ -119,10 +119,8 @@ Run the development server:
 
 ## IceBox Features
 
-*   **Calendar integration** for task deadlines.    
-*   **Drag-and-drop interface** for reordering tasks.  
-*   **Dark mode** theme toggle.   
-*   **Notifications** for upcoming tasks or achievements.   
-*   **Ability to share roles** with other users. 
-*   **Real-time collaboration** (via WebSockets or other).
-*   **Admin panel** to view and manage users, tasks, and roles.
+*   Calendar integration for task deadlines     
+*   Drag-and-drop interface for reordering tasks    
+*   Dark mode theme toggle    
+*   Notifications for upcoming tasks or achievements    
+*   Ability to share roles with other users
